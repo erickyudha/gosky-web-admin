@@ -1,0 +1,58 @@
+.ticketCard {
+  width: 200px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 10px 15px 30px 15px;
+  border-radius: 8px;
+}
+
+.ticketCard > img {
+  width: 100%;
+}
+
+.ticketCard .content {
+  margin-top: 15px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ticketCard .content .row-1 {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ticketCard .content .row-1 > span {
+  padding: 5px 10px;
+  background-color:#00ACED;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.ticketCard .content .pair {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #888;
+}
+
+.ticketCard .content .destination {
+  font-weight: 700;
+  color: #0078a3;
+}
+
+.cardIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.control {
+  display: flex;
+  width: 100%;
+}
+
+.control button {
+  width: 50%;
+}
