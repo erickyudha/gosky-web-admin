@@ -12,7 +12,7 @@ function App() {
         <Route path='/dashboard/tickets' element={<TicketDashboard />} />
         <Route path='/dashboard/transactions' element={<DashboardTransaction />} />
         <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/' element={<Login />} />
+        <Route path='/login' element={<Login />} />
       </Routes>
     </BrowserRouter>
   );
