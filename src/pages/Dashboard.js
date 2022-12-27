@@ -1,5 +1,9 @@
+import Sidebar from '../components/Sidebar'
+import ListTransactions from "../components/ListTransaction";
 export default function Dashboard() {
   return (
-    <h1>AMOGUS</h1>
+    <div >
+      <Sidebar components={<ListTransactions />}  />
+    </div>
   )
 }
