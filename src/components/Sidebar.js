@@ -22,6 +22,8 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { Container } from '@mui/system';
 import { Grid } from '@mui/material';
 import sidebar from "./Sidebar.module.css"
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router';
 
 
 
@@ -73,9 +75,12 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     height: '90px',
 }));
 
-export default function PersistentDrawerLeft({components}) {
+export default function PersistentDrawerLeft({ components }) {
+    const [cookies, setCookie] = useCookies(['accessToken']);
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const [user, setUser] = React.useState({});
+    const navigate = useNavigate();
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -83,6 +88,36 @@ export default function PersistentDrawerLeft({components}) {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+
+    React.useEffect(() => {
+        const validateAccessToken = async () => {
+            try {
+                const url = 'https://gosky.up.railway.app/api/auth/whoami';
+                const rawResponse = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + cookies.accessToken,
+                    },
+                })
+                const response = await rawResponse.json();
+                if (response.status !== 'success') {
+                    throw new Error();
+                } else {
+                    setUser(response.data);
+                }
+            } catch (error) {
+                setCookie('accessToken', '', { path: '/' });
+                navigate('/login');
+            }
+        }
+
+        if (cookies.accessToken === '') {
+            navigate('/login');
+        } else {
+            validateAccessToken();
+        }
+    }, [])
 
     return (
         <Box sx={{ display: 'flex', boxSizing:'none'}}>
@@ -106,7 +141,7 @@ export default function PersistentDrawerLeft({components}) {
                         </Grid>
                         <Grid item >
                             <Toolbar>
-                                <img src={'/img/user.png'} width={35} height={35} alt=""/>
+                                <img src={user.imageUrl} width={35} height={35} alt=""/>
                                 <Typography
                                     sx={{
                                         fontFamily: 'Montserrat',
@@ -117,7 +152,7 @@ export default function PersistentDrawerLeft({components}) {
                                         color: '#484848',
                                         marginLeft:'10px'
                                     }}
-                                >R Fajri Nanditho</Typography>
+                                >{user.name}</Typography>
                             </Toolbar>
                         </Grid>
                     </Grid>
@@ -160,7 +195,7 @@ export default function PersistentDrawerLeft({components}) {
                 <Divider />
                 <List sx={{ marginTop: '15%', }}>
                     {
-                        [{"name":'Dashboard', 'link':'/dashboard'}, {"name":'Manage Tickets', 'link':'/dashboard/tickets'}, {"name":'Logout', 'link':'/dashboard'}].map((text, index) => (
+                        [{"name":'Dashboard', 'link':'/dashboard'}, {"name":'Manage Tickets', 'link':'/dashboard/tickets'}, {"name":'Logout', 'link':'/logout'}].map((text, index) => (
                             <ListItem key={text} disablePadding >
                                 <ListItemButton sx={{ height: '90px' }}>
                                     <ListItemIcon sx={{ color: 'white' }}>

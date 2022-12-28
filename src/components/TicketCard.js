@@ -35,8 +35,8 @@ export default function TicketCard(props) {
       </div>
 
       <div className='control'>
-        <button>Edit</button>
-        <button>Delete</button>
+        <button className='editBtn'>Edit</button>
+        <button className='deleteBtn'>Delete</button>
       </div>
     </div>
   )
