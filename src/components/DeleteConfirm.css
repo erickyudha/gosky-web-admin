@@ -1,0 +1,17 @@
+.delete-confirm {
+  background-color: #fff;
+  padding: 20px 40px;
+}
+
+.delete-confirm .control {
+  display: flex;
+  gap: 20px;
+}
+
+.delete-confirm .cancel-btn:hover {
+  background-color: rgb(177, 211, 251);
+}
+
+.delete-confirm .delete-btn:hover {
+  background-color: rgb(251, 177, 177);
+}

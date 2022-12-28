@@ -1,15 +1,37 @@
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import Alert from '../components/Alert';
 import TicketCard from '../components/TicketCard';
 import './TicketDashboard.css';
 
 export default function TicketDashboard() {
-  const [cookies, setCookie] = useCookies(['accessToken', 'user']);
+  const [cookies, setCookie] = useCookies(['accessToken', 'user', 'event']);
   const [tickets, setTickets] = useState([]);
-  const [user, setUser] = useState({});
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [alert, setAlert] = useState({ type: 'success', message: 'Delete ticket success' });
+  const [alertActive, setAlertActive] = useState(false);
+
+  const activateAlert = () => {
+    setAlertActive(true);
+    setTimeout(() => {
+      setAlertActive(false);
+    }, 3000);
+  }
+  
+  const handleDelete = (ticketId, alert) => {
+    setAlert(alert);
+    activateAlert();
+
+    if (alert.type === 'success') {
+      setTickets(oldTickets => {
+        return oldTickets.filter((ticket) => {
+          return ticket.id !== ticketId
+        });
+      });
+    }
+  }
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -27,23 +49,38 @@ export default function TicketDashboard() {
     }
     
     fetchTickets();
+
+    if (!!cookies.event) {
+      if (cookies.event.type === 'alert') {
+        setAlert(cookies.event.alert);
+        activateAlert();
+        setCookie('event', null, { path: '/' });
+      }
+    }
   }, [])
 
   return (
-    <>
-      <header>
-        <span>Ticket Management</span>
+    <div className='ticket-db-main'>
+      <header className='ticketHeader'>
+        <h1>Ticket Management</h1>
 
         <div>
-          <button>Create</button>
+          <button onClick={() => {
+            navigate('/dashboard/tickets/create');
+          }}>Create</button>
         </div>
       </header>
       
-      <main>
+      <div className='ticket-list'>
         {tickets.map((ticket) => {
-          return <TicketCard ticket={ticket} key={ticket.id} />
+          return <TicketCard ticket={ticket} key={ticket.id} deleteHandler={handleDelete} />
         })}
-      </main>
-    </>  
+      </div>
+      <Alert
+        active={alertActive}
+        type={alert.type}
+        message={alert.message}
+      />
+    </div>  
   )
 }

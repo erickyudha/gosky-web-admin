@@ -1,15 +1,21 @@
-header {
+main:has(.ticket-db-main) {
+  display: block;
+}
+
+.ticketHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  padding: 0 24px;
 }
 
-header > span {
+.ticketHeader > span {
   font-size: 32px;
   font-weight: 600;
 }
 
-header button {
+.ticketHeader button {
   background-color: #00ACED;
   border-radius: 8px;
   color: #fff;
@@ -21,14 +27,14 @@ header button {
   
 }
 
-header button:hover {
+.ticketHeader button:hover {
   background-color: #4cc7f4;
   
 }
 
-main {
+.ticket-list {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   flex-wrap: wrap;
   gap: 30px;
 }

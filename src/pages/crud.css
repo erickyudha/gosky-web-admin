@@ -1,0 +1,52 @@
+main:has(.crud-section)  {
+  display: block;
+}
+
+.ticket-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #fff;
+  padding: 20px 40px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.ticket-form .row {
+  display: flex;
+  gap: 40px;
+}
+
+.ticket-form .pair {
+  display: grid;
+  grid-template-columns: 140px auto;
+}
+
+.ticket-form textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+.crud-section .form-btn {
+  padding: 7px 40px;
+  margin-top: 20px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background-color: rgb(15, 89, 148);
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  color: #fff;
+}
+
+.crud-section .form-btn:hover {
+    background-color: rgb(51, 140, 213);
+}
+
+@media screen and (max-width: 768px) {
+  .ticket-form .row {
+    flex-direction: column;
+    gap: 20px;
+  }
+}

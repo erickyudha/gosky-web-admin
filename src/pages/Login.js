@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import {useNavigate } from 'react-router-dom';
+import LoadingScreen from '../components/LoadingScreen';
 import './Login.css';
 
 export default function Login() {
@@ -9,10 +10,12 @@ export default function Login() {
   const [invalidLogin, setInvalidLogin] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [cookies, setCookie] = useCookies(['accessToken']);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleClick = async (e) => {
     try { 
+      setIsLoading(true)
       setInvalidLogin(false);
       if (email.length < 3 || password.length < 4) {
         throw new Error('Invalid Input Length!')
@@ -50,8 +53,9 @@ export default function Login() {
       setCookie('accessToken', accessToken, { path: '/' });
       navigate('/dashboard');
     } catch (error) {
+      setIsLoading(false);
       setInvalidLogin(true);
-      setErrorMsg(error.message)
+      setErrorMsg(error.message);
     }
   }
 
@@ -84,6 +88,7 @@ export default function Login() {
 
   return (
     <main>
+      <LoadingScreen active={isLoading} />
       <div className="main-form">
         <img alt="gosky admin" src="/gosky_admin.svg"></img>
         <div className='inputs'>
