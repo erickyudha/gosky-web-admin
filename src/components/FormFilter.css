@@ -1,0 +1,39 @@
+.form-filter {
+  background-color: #fff;
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-filter .input-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-filter .input-filter .row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+}
+
+.form-filter .input-filter .pair {
+  display: grid;
+  grid-template-columns: 150px auto;
+}
+
+.form-filter .control {
+  display: flex;
+  gap: 10px; 
+}
+
+.form-filter .control button:hover {
+  background-color: rgb(146, 217, 242);
+}
+
+.form-filter > img {
+  font-weight: 700;
+  cursor: pointer;
+  width: 24px;
+}

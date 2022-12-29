@@ -37,4 +37,51 @@ main:has(.ticket-db-main) {
   justify-content: space-around;
   flex-wrap: wrap;
   gap: 30px;
+  padding-bottom: 100px;
+  align-items: flex-start;
+}
+
+.page-button-list {
+  display: flex;
+  padding: 0 40px 20px 40px;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-button-list button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  border: none;
+  padding: 6px;
+}
+.page-button-list button:hover {
+  background-color: #63cbf1;
+}
+.page-button-list button.active {
+  background-color: #bee6f5;
+}
+.page-button-list .page-arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ticketHeader .filter-btn {
+  background-color: #919191;
+}
+.ticketHeader .filter-btn:hover {
+  background-color: #6f6f6f;
+}
+
+.ticketHeader > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-end;
 }

@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router';
 import Alert from '../components/Alert';
 import LoadingScreen from '../components/LoadingScreen';
 import TicketForm from '../components/TicketForm';
+import TicketPreview from '../components/TicketPreview';
 import './crud.css';
 
 export default function UpdateTicket(props) {
@@ -11,6 +12,7 @@ export default function UpdateTicket(props) {
   const [alertActive, setAlertActive] = useState(true);
   const [alert, setAlert] = useState({});
   const [ticket, setTicket] = useState({});
+  const [ticketRef, setTicketRef] = useState({});
   const [image, setImage] = useState('');
   const [cookies, setCookie] = useCookies(['accessToken', 'event']);
   const navigate = useNavigate();
@@ -45,7 +47,7 @@ export default function UpdateTicket(props) {
     return body.data;
   }
 
-  const handleCreate = async () => {
+  const handleUpdate = async () => {
     setIsLoading(true);
     try {
       let imageData = {}
@@ -58,9 +60,9 @@ export default function UpdateTicket(props) {
       };
       data.category = (data.category === 'ONE WAY') ? 'ONE_WAY' : 'ROUND_TRIP';
 
-      const url = 'https://gosky.up.railway.app/api/tickets';
+      const url = 'https://gosky.up.railway.app/api/tickets/' + id;
       const response = await fetch(url, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-type': 'application/json',
           'Authorization': 'Bearer ' + cookies.accessToken,
@@ -75,7 +77,7 @@ export default function UpdateTicket(props) {
           type: 'alert',
           alert: {
             type: 'success',
-            message: 'Add New Ticket Success',
+            message: 'Update Ticket Data Success',
           }
         };
         setCookie('event', event, { path: '/' });
@@ -104,13 +106,19 @@ export default function UpdateTicket(props) {
           throw new Error(body.message);
         } else {
           setTicket(body.data);
+          setTicketRef(body.data);
         }
       } catch (error) {
-        setTicket(null);
+        setTicket({});
         setError(error.message);
       }
     }
     getTicketData();
+
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
   }, [])
 
   return (
@@ -121,15 +129,9 @@ export default function UpdateTicket(props) {
         <>
           <h1 className="crud-header">Update Ticket Data</h1>
           <div>
-            <div className='ticket-preview'>
-              <div className='pair'>
-                <span>ID</span>
-                <span>{ticket.id}</span>
-              </div>
-              
-            </div>
-            <TicketForm onChange={handleFormChange} />
-            <button className='form-btn' onClick={handleCreate}>Create</button>
+            <TicketPreview ticket={ticketRef} />
+            <TicketForm onChange={handleFormChange} ticketId={ticket.id} />
+            <button className='form-btn' onClick={handleUpdate}>Update</button>
           </div>
         </>
       }

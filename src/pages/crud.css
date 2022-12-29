@@ -38,10 +38,32 @@ main:has(.crud-section)  {
   font-size: 16px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   color: #fff;
+  margin-bottom: 80px;
 }
 
 .crud-section .form-btn:hover {
     background-color: rgb(51, 140, 213);
+}
+
+.ticket-preview {
+  background-color: rgb(199, 236, 255);
+  border-radius: 8px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin-bottom: 25px;
+  padding: 20px 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.ticket-preview .pair {
+  display: grid;
+  grid-template-columns: 150px auto;
+}
+.ticket-preview .pair > span:first-child {
+  color: rgb(0, 81, 255);
+}
+.ticket-preview .pair > span:nth-child(2) {
+  color: #000;
+  font-weight: 600;
 }
 
 @media screen and (max-width: 768px) {

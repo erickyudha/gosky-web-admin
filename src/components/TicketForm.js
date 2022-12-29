@@ -1,19 +1,16 @@
 import { useEffect, useState } from "react";
 
 export default function TicketForm(props) {
-  const { ticket = {}, onChange } = props;
-  const [category, setCategory] = useState(ticket.category || 'ONE WAY');
-  const [from, setFrom] = useState(ticket.from || 'JAKARTA');
-  const [to, setTo] = useState(ticket.to || 'MEDAN');
-  const [price, setPrice] = useState(ticket.price || '');
-  const [duration, setDuration] = useState(ticket.duration || '');
+  const { ticketId = null, onChange = () => {} } = props;
+  const [category, setCategory] = useState('ONE WAY');
+  const [from, setFrom] = useState('JAKARTA');
+  const [to, setTo] = useState('MEDAN');
+  const [price, setPrice] = useState('');
+  const [duration, setDuration] = useState('');
   const [departureTime, setDepartureTime] = useState('');
   const [returnTime, setReturnTime] = useState('');
-  const [description, setDescription] = useState(ticket.description || '');
+  const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
-  
-  if (!!ticket.departureTime) setDepartureTime(new Date(ticket.departureTime).toISOString().slice(0, 16));
-  if (!!ticket.returnTime) setDepartureTime(new Date(ticket.returnTime).toISOString().slice(0, 16));
 
   useEffect(() => {
     const data = {
@@ -22,6 +19,36 @@ export default function TicketForm(props) {
     }
     onChange(data, image);
   }, [category, from, to, price, duration, departureTime, returnTime, description, image])
+
+  useEffect(() => {
+    const loadTicketData = async () => {
+      try {
+        const url = 'https://gosky.up.railway.app/api/tickets/' + ticketId;
+        const response = await fetch(url, {
+          method: 'GET'
+        });
+        const body = await response.json();
+        if (body.status !== 'success') {
+          throw new Error(body.message);
+        } else {
+          const ticket = body.data;
+          setCategory((ticket.category === 'ONE_WAY') ? 'ONE WAY' : 'ROUND TRIP');
+          setFrom(ticket.from);
+          setTo(ticket.to);
+          setPrice(ticket.price);
+          setDuration(ticket.duration);
+          setDepartureTime(new Date(ticket.departureTime).toISOString().slice(0, 16));
+          setDescription(ticket.description);
+          if (ticket.category === 'ROUND_TRIP') {
+            setReturnTime(new Date(ticket.returnTime).toISOString().slice(0, 16))
+          }
+        }
+      } catch (error) {
+        // handle error
+      } 
+    }
+    if (!!ticketId) loadTicketData();
+  }, [ticketId]);
 
   const cities = [
     'JAKARTA',
