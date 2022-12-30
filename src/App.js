@@ -21,6 +21,7 @@ function App() {
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/login' element={<Login />} />
         <Route path='/logout' element={<Logout />} />
+        <Route path='/' element={<Login />} />
       </Routes>
     </BrowserRouter>
   );

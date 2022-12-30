@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './FormFilter.css';
 import Overlay from './Overlay.';
 
 export default function FormFilter(props) {
   const {
-    active = true,
-    resetHandler = () => { },
-    filterHandler = () => { },
-    exitHandler = () => {},
+    active,
+    resetHandler,
+    filterHandler,
+    exitHandler,
   } = props;
   const [filter, setFilter] = useState({});
   const cities = [
