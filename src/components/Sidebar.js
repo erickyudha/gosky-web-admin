@@ -136,7 +136,7 @@ export default function PersistentDrawerLeft({ components }) {
                                 >
                                     <MenuIcon sx={{ color: "dodgerblue" }} />
                                 </IconButton>
-                                <img src="/img/Group4.png" width={200} height={55} alt="" className={sidebar.logo}/>
+                                <img src="/img/Group4.png" width={180} height={45} alt="" className={sidebar.logo}/>
                             </Toolbar>
                         </Grid>
                         <Grid item >
@@ -197,22 +197,24 @@ export default function PersistentDrawerLeft({ components }) {
                     {
                         [{"name":'Dashboard', 'link':'/dashboard'}, {"name":'Manage Tickets', 'link':'/dashboard/tickets'}, {"name":'Logout', 'link':'/logout'}].map((text, index) => (
                             <ListItem key={text} disablePadding >
-                                <ListItemButton sx={{ height: '90px' }}>
+                                <a  href={text.link} style={{textDecoration:'none'}}>
+                                <ListItemButton sx={{ height: '90px', width: '300px' }}>
                                     <ListItemIcon sx={{ color: 'white' }}>
                                         {index / 2 === 0 ? <DashboardCustomizeRoundedIcon sx={{ fontSize: '45px' }} /> : (index % 2 === 1 ? <AirplaneTicketRoundedIcon sx={{ fontSize: '45px' }} /> : <LogoutRoundedIcon sx={{ fontSize: '45px' }} />)}
                                     </ListItemIcon>
                                     <ListItemText>
-                                        <a href={text.link} style={{
+                                        <p style={{
                                             fontFamily: 'Montserrat',
                                             fontStyle: 'normal',
                                             fontWeight: '700',
                                             fontSize: '24px',
                                             lineHeight: '37px',
                                             color: '#FFFFFF',
-                                            textDecoration:'none'
-                                        }}>{text.name}</a>
+                                            
+                                        }}>{text.name}</p>
                                     </ListItemText>
                                 </ListItemButton>
+                                </a>
                             </ListItem>
                         ))}
                 </List>
