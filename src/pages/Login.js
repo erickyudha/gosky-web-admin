@@ -60,6 +60,7 @@ export default function Login() {
   }
 
   useEffect(() => {
+    document.title = 'Login - GoSky Admin'
     const validateAccessToken = async () => {
       try {
         const url = 'https://gosky.up.railway.app/api/auth/whoami';

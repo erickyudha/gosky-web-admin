@@ -78,6 +78,7 @@ export default function TicketDashboard() {
   }
 
   useEffect(() => {
+    document.title = 'Manage Tickets - GoSky Admin';
     fetchTickets(null);
 
     if (!!cookies.event) {
