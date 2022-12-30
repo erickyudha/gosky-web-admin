@@ -120,9 +120,9 @@ export default function PersistentDrawerLeft({ components }) {
     }, [])
 
     return (
-        <Box sx={{ display: 'flex', boxSizing:'none'}}>
+        <Box sx={{ display: 'flex', boxSizing:'none', marginTop: '-25px'}}>
             <CssBaseline />
-            <AppBar position="fixed" open={open} sx={{ paddingTop: '10px', minHeight: '90px', background: '#FFFFFF' }}>
+            <AppBar position="fixed" open={open} sx={{ background: '#FFFFFF' }}>
                 <Container maxWidth>
                     <Grid container spacing={2} justifyContent='space-between'>
                         <Grid item>
@@ -136,7 +136,7 @@ export default function PersistentDrawerLeft({ components }) {
                                 >
                                     <MenuIcon sx={{ color: "dodgerblue" }} />
                                 </IconButton>
-                                <img src="/img/Group4.png" width={180} height={45} alt="" className={sidebar.logo}/>
+                                <img src="/img/Group4.png" width={140} height={40} alt="" className={sidebar.logo}/>
                             </Toolbar>
                         </Grid>
                         <Grid item >
