@@ -1,4 +1,6 @@
-import { Container, Typography } from "@mui/material"
+
+import * as React from 'react';
+import { Typography } from "@mui/material"
 import { Grid } from "@mui/material"
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,82 +9,196 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import "./ListTransaction.css"
+import "./ListTransaction.css";
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router';
+import LoadingScreen from '../components/LoadingScreen';
+import { useState } from 'react';
+import '../pages/TicketDashboard.css';
 
 
-function createData(user, ticket, amount, totalPrice, transactionTime) {
-    return { user, ticket, amount, totalPrice, transactionTime };
-  }
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-  ];
-const limit = [];
-for (let index = 0; index < 7; index++) {
-    if (rows[index]===undefined){
-        limit.push(' ')
-    }else{
-        limit.push(rows[index]);
-    }
-    
-}
 export default function ListTransactions() {
-const headerTable = {
-    fontFamily: 'Montserrat',
-    fontStyle:'normal',
-    fontWeight: '700',
-    fontSize: '24px',
-    lineHeight: '29px',
-    color: '#000000',
-}
+    const headerTable = {
+        fontFamily: 'Montserrat',
+        fontStyle: 'normal',
+        fontWeight: '700',
+        fontSize: '24px',
+        lineHeight: '29px',
+        color: '#000000',
+    }
 
-const rowTable = {
-    fontFamily: 'Montserrat',
-    fontStyle:'normal',
-    fontWeight: '700',
-    fontSize: '19px',
-    lineHeight: '23px',
-    color: '#000000',
-}
+    const rowTable = {
+        fontFamily: 'Montserrat',
+        fontStyle: 'normal',
+        fontWeight: '700',
+        fontSize: '17px',
+        lineHeight: '20px',
+        color: '#000000',
+    }
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [cookies, setCookie] = useCookies(['accessToken']);
+    const [transaction, setTransaction] = React.useState([{
+        "id": '-',
+        "userId": '-',
+        "ticketId": '-',
+        "amount": '-',
+        "bookingCode": '-',
+        "deletedAt": '-',
+        "createdAt": '-',
+        "updatedAt": '-',
+        "ticket": {
+            "category": "-",
+            "from": "-",
+            "to": "-",
+            "price": '-',
+        },
+        "user": {
+            "id": '-',
+            "name": '-',
+            "role": '-',
+            "imageUrl": '-'
+        }
+    }
+    ]);
+    const [earning, setEarning] = React.useState({
+        "today": {
+            "earnings": '-',
+            "count": '-',
+        },
+        "thisMonth": {
+            "earnings": '-',
+            "count": '-',
+        },
+        "thisYear": {
+            "earnings": '-',
+            "count": '-',
+        }
+    });
+    const navigate = useNavigate();
+
+
+    React.useEffect(() => {
+        const validateAccessToken = async () => {
+            try {
+                setIsLoading(true);
+                const url = 'https://gosky.up.railway.app/api/transactions';
+                const rawResponse = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + cookies.accessToken,
+                    },
+                });
+                const response = await rawResponse.json();
+                if (response.status !== 'success') {
+                    throw new Error();
+                } else {
+
+                    setTransaction(response.data);
+                }
+
+                const urlEarning = 'https://gosky.up.railway.app/api/earnings';
+                const rawResponseEarning = await fetch(urlEarning, {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + cookies.accessToken,
+                    },
+                });
+                const responseEarning = await rawResponseEarning.json();
+                if (responseEarning.status !== 'success') {
+                    throw new Error();
+                } else {
+                    setEarning(responseEarning.data);
+                    setIsLoading(false);
+                }
+            } catch (error) {
+                setCookie('accessToken', '', { path: '/' });
+                navigate('/login');
+            }
+        }
+
+        if (cookies.accessToken === '') {
+            navigate('/login');
+        } else {
+            validateAccessToken();
+        }
+    }, [])
+
+    function createData(id, user, ticket, amount, totalPrice, transactionTime) {
+        return { id, user, ticket, amount, totalPrice, transactionTime };
+    }
+    const rows = [];
+
+    transaction.map((transactions) => {
+        if (!transactions.ticket) {
+            transactions.ticket = {
+                "category": "-",
+                "from": "-",
+                "to": "-",
+                "price": '-',
+            }
+        }
+        return rows.push(createData(
+            transactions.id, transactions.user.name, `[${transactions.ticket.category}] ${transactions.ticket.from} - ${transactions.ticket.to}`,
+            transactions.amount,
+            new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(transactions.ticket.price * transactions.amount),
+            new Date(transactions.updatedAt).toLocaleString()))
+    });
+
+    let sort = rows.reverse();
+    console.log(sort);
+
+    const limit = [];
+    for (let index = 0; index < 7; index++) {
+        if (sort[index] !== undefined) {
+            limit.push(sort[index]);
+        } else {
+            limit.push(createData(index, '', '', '', '', ''))
+        }
+    }
+
+
     return (
-        <Container maxWidth sx={{minWidth:'510px', backgroundColor:'#F1F1F1'}}>
+
+        <div className='ticket-db-main' style={{paddingTop: '30px'}}>
+
             <p className="title">Dashboard</p>
-            <Grid container spacing={2} justifyContent='space-between' sx={{
-                '@media screen and (max-width:1454px)':{
+            <Grid container spacing={2} justifyContent='start' sx={{
+                '@media screen and (max-width:1454px)': {
                     justifyContent: 'center',
-                }}}>
-                <Grid item>
+                }
+            }}>
+                <Grid item >
                     <div className="retangle">
                         <p className="retangleTitle" style={{ color: '#0E4DA4' }}>Earnings (Today)</p>
                         <Grid container spacing={2} justifyContent='start'>
                             <Grid item xs={3}>
-                                <img src="/img/money.png" height={35} width={70} style={{ marginTop: '15px' }} alt=''></img>
+                                <img src="/img/money.png" height={35} width={60} style={{ marginTop: '15px' }} alt=''></img>
                             </Grid>
                             <Grid item xs={9}>
-                                <p className="content1">120 Transactions</p>
-                                <p className="content2">Rp 19.243.000</p>
+                                <p className="content1">{earning.today.count} Transactions</p>
+                                <p className="content2">{new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(earning.today.earnings)}</p>
                             </Grid>
                         </Grid>
                     </div>
                 </Grid>
-                <Grid item>
+                <Grid item >
                     <div className="retangle">
-                        <p className="retangleTitle" style={{ color: '#0084B4' }}>Earnings (This Mounth)</p>
+                        <p className="retangleTitle" style={{ color: '#0084B4' }}>Earnings (This Month)</p>
                         <Grid container spacing={2} justifyContent='start'>
                             <Grid item xs={3}>
-                                <img src="/img/calender.png" height={50} width={50}  alt=''></img>
+                                <img src="/img/calender.png" height={50} width={50} alt=''></img>
                             </Grid>
                             <Grid item xs={9}>
-                                <p className="content1">120 Transactions</p>
-                                <p className="content2">Rp 19.243.000</p>
+                                <p className="content1">{earning.thisMonth.count} Transactions</p>
+                                <p className="content2">{new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(earning.thisMonth.earnings)}</p>
                             </Grid>
                         </Grid>
                     </div>
                 </Grid>
-                <Grid item>
+                <Grid item >
                     <div className="retangle">
                         <p className="retangleTitle" style={{ color: '#0FA958' }}>Earnings (This Year)</p>
                         <Grid container spacing={0} justifyContent='start'>
@@ -90,8 +206,8 @@ const rowTable = {
                                 <img src="/img/tumpukan.png" height={50} width={50} style={{ marginTop: '5px' }} alt=''></img>
                             </Grid>
                             <Grid item xs={9}>
-                                <p className="content1">120 Transactions</p>
-                                <p className="content2">Rp 19.243.000</p>
+                                <p className="content1">{earning.thisYear.count} Transactions</p>
+                                <p className="content2">{new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(earning.thisYear.earnings)}</p>
                             </Grid>
                         </Grid>
                     </div>
@@ -99,7 +215,7 @@ const rowTable = {
             </Grid>
             <div className="backgroundTable">
                 <p className="tableTitle">Last Transactions</p>
-                <TableContainer component={Paper} sx={{marginBottom:'10px'}}>
+                <TableContainer component={Paper} sx={{ marginBottom: '10px' }}>
                     <Table aria-label="a dense table">
                         <TableHead className="headerTable">
                             <TableRow >
@@ -112,21 +228,22 @@ const rowTable = {
                         </TableHead>
                         <TableBody>
                             {limit.map((row) => (
-                                <TableRow key={row.user}>
-                                    <TableCell component="th" scope="row" className="headerTableRow" sx={{border:'none', height: '50px'}}>
-                                    <Typography sx={rowTable}>{row.user}</Typography>
+                                <TableRow key={row.id} sx={{ height: '0px' }}>
+                                    <TableCell component="th" scope="row" className="headerTableRow" sx={{ border: 'none', }}>
+                                        <Typography sx={rowTable}>{row.user}</Typography>
                                     </TableCell>
-                                    <TableCell sx={{border:'none', background: 'rgba(161, 14, 164, 0.08)'}}><Typography sx={rowTable}>{row.ticket}</Typography></TableCell>
-                                    <TableCell sx={{border:'none'}}><Typography sx={rowTable}>{row.amount}</Typography></TableCell>
-                                    <TableCell sx={{border:'none', background: 'rgba(161, 14, 164, 0.08)'}}><Typography sx={rowTable}>{row.totalPrice}</Typography></TableCell>
-                                    <TableCell sx={{border:'none'}}><Typography sx={rowTable}>{row.transactionTime}</Typography></TableCell>
+                                    <TableCell sx={{ border: 'none', background: 'rgba(161, 14, 164, 0.08)' }}><Typography sx={rowTable}>{row.ticket}</Typography></TableCell>
+                                    <TableCell sx={{ border: 'none' }}><Typography sx={rowTable}>{row.amount}</Typography></TableCell>
+                                    <TableCell sx={{ border: 'none', background: 'rgba(161, 14, 164, 0.08)' }}><Typography sx={rowTable}>{row.totalPrice}</Typography></TableCell>
+                                    <TableCell sx={{ border: 'none' }}><Typography sx={rowTable}>{row.transactionTime}</Typography></TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
                 <a className="linkk" href='/dashboard/transactions'>View more {">>"}</a>
-            </div>
-        </Container>
+            </div><br/><br/>
+            <LoadingScreen active={isLoading} />
+        </div>
     )
 }
