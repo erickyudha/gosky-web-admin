@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router';
 import Alert from '../components/Alert';
@@ -90,6 +90,10 @@ export default function AddTicket(props) {
       activateAlert();
     }
   }
+
+  useEffect(() => {
+    document.title = 'Create Ticket - GoSky Admin';
+  }, [])
 
   return (
     <div className='crud-section'>

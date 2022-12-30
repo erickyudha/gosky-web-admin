@@ -20,6 +20,19 @@ export default function TicketCard(props) {
   const handleHideConfirm = () => {
     setConfirmActive(false);
   }
+
+  const handleDeleteImg = async (imageId) => {
+    const url =
+    `https://gosky.up.railway.app/api/images?imageId=${imageId}&type=TICKET_IMG`;
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer ' + cookies.accessToken,
+      },
+    });
+    await response.json();
+  };
+
   const handleDelete = async () => {
     setConfirmActive(false);
     setLoadingActive(true);
@@ -37,6 +50,7 @@ export default function TicketCard(props) {
       if (body.status !== 'success') {
         throw new Error(body.message);
       } else {
+        await handleDeleteImg(ticket.imageId);
         const alert = {
           type: 'success',
           message: 'Delete Ticket Success',

@@ -29,7 +29,19 @@ export default function UpdateTicket(props) {
     setTimeout(() => {
       setAlertActive(false);
     }, 3000);
-  }
+  };
+
+  const handleDeleteImg = async (imageId) => {
+    const url =
+      `https://gosky.up.railway.app/api/images?imageId=${imageId}&type=TICKET_IMG`;
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer ' + cookies.accessToken,
+      },
+    });
+    await response.json();
+  };
 
   const uploadImage = async (image) => {
     const url = 'https://gosky.up.railway.app/api/images?type=TICKET_IMG';
@@ -52,6 +64,7 @@ export default function UpdateTicket(props) {
     try {
       let imageData = {}
       if (!!image) {
+        await handleDeleteImg(ticketRef.imageId);
         imageData = await uploadImage(image);
       }
       const data = {
@@ -95,6 +108,7 @@ export default function UpdateTicket(props) {
   }
 
   useEffect(() => {
+    document.title = 'Update Ticket - GoSky Admin'; 
     const getTicketData = async () => {
       try {
         const url = 'https://gosky.up.railway.app/api/tickets/' + id;
@@ -130,7 +144,7 @@ export default function UpdateTicket(props) {
           <h1 className="crud-header">Update Ticket Data</h1>
           <div>
             <TicketPreview ticket={ticketRef} />
-            <TicketForm onChange={handleFormChange} ticketId={ticket.id} />
+            <TicketForm onChange={handleFormChange} ticket={ticketRef} />
             <button className='form-btn' onClick={handleUpdate}>Update</button>
           </div>
         </>
