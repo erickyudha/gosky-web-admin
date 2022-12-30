@@ -1,8 +1,27 @@
-# Getting Started with Create React App
+# GoSky Web Admin Website - React Project
+
+GoSky is an airplane ticket ordering app. This team project is made as part of final challenge in Binar Academy - Fullstack Web Developer course. 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Routes
+This project is hosted using vercel
+
+| Name | Route | Full URL | Description |
+|--|--|--|--|
+| Landing Page | `/` | https://gosky-admin.vercel.app/ | Landing page for website. Redirect to login page if not logged in, go to dashboard if logged in. |
+| Login Page | `/login` | https://gosky-admin.vercel.app/login | Login using GoSky admin account. |
+| Dashboard | `/dashboard` | https://gosky-admin.vercel.app/dashboard | View last transactions and earning stats. |
+| Transactions Page | `/dashboard/transactions` | https://gosky-admin.vercel.app/dashboard/transactions | View last transactions. |
+| Manage Tickets Page | `/dashboard/tickets` | https://gosky-admin.vercel.app/dashboard/tickets | Manage tickets data. |
+| Create Ticket Page | `/dashboard/tickets/create` | https://gosky-admin.vercel.app/dashboard/tickets/create | Add new ticket data. |
+| Create Ticket Page | `/dashboard/tickets/update/:id` | https://gosky-admin.vercel.app/dashboard/tickets/update/:id | Edit existing ticket data. |
+
+## Running The Application
+
+Before running the app, first install all the dependencies needed by running:
+
+    npm install
 
 In the project directory, you can run:
 
@@ -38,33 +57,3 @@ If you aren't satisfied with the build tool and configuration choices, you can `
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

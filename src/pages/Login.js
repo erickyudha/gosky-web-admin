@@ -32,7 +32,7 @@ export default function Login() {
         })
       })
       const response = await rawResponse.json();
-      if (response.status === 'failed' || response.status === 'error') {
+      if (response.status !== 'success') {
         throw new Error(response.message);
       }
       const accessToken = response.data.accessToken;
@@ -100,10 +100,10 @@ export default function Login() {
             setPassword(e.target.value);
           }}></input>
           {(invalidLogin) ? 
-            <span className='error-msg'>{errorMsg}</span> : ''
+            <span data-testid='login-err-msg' className='error-msg'>{errorMsg}</span> : ''
           }
         </div>
-        <button onClick={handleClick}>Login</button>
+        <button data-testid='login-btn' onClick={handleClick}>Login</button>
       </div>
     </main>
   )
