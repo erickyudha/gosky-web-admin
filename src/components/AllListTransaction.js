@@ -29,8 +29,7 @@ export default function ListTransactions() {
         fontFamily: 'Montserrat',
         fontStyle: 'normal',
         fontWeight: '700',
-        fontSize: '17px',
-        lineHeight: '20px',
+        fontSize: '14px',
         color: '#000000',
     }
 
@@ -49,6 +48,7 @@ export default function ListTransactions() {
             "category": "-",
             "from": "-",
             "to": "-",
+            "departureTime": "-",
             "price": '-',
         },
         "user": {
@@ -104,13 +104,15 @@ export default function ListTransactions() {
                 "category": "-",
                 "from": "-",
                 "to": "-",
+                "departureTime": "-",
                 "price": '-',
             }
         }
         return rows.push(createData(
-            transactions.id, transactions.user.name, `[${transactions.ticket.category}] ${transactions.ticket.from} - ${transactions.ticket.to}`,
+            transactions.id, transactions.user.name, 
+            `[${transactions.ticket.category}] ${transactions.ticket.from} - ${transactions.ticket.to} - `+ new Date(transactions.ticket.departureTime).toLocaleString(),
             transactions.amount,
-            new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(transactions.ticket.price*transactions.amount), 
+            new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(transactions.ticket.price * transactions.amount),
             new Date(transactions.updatedAt).toLocaleString()))
     });
 
@@ -118,8 +120,8 @@ export default function ListTransactions() {
     console.log(sort);
 
     const limit = [];
-    let batas = 17;
-    if (sort.length >= 18) {
+    let batas = 24;
+    if (sort.length >= 25) {
         batas = sort.length;
     }
     for (let index = 0; index < batas; index++) {
@@ -147,14 +149,14 @@ export default function ListTransactions() {
                         </TableHead>
                         <TableBody>
                             {limit.map((row) => (
-                                <TableRow key={row.id} sx={{ height: '0px' }}>
-                                    <TableCell component="th" scope="row" className="headerTableRow" sx={{ border: 'none', }}>
+                                <TableRow key={row.id} sx={{ height: '0px', }}>
+                                    <TableCell component="th" scope="row" className="headerTableRow" sx={{ border: 'none',  paddingTop:'8px', paddingBottom:'8px'}}>
                                         <Typography sx={rowTable}>{row.user}</Typography>
                                     </TableCell>
-                                    <TableCell sx={{ border: 'none', background: 'rgba(161, 14, 164, 0.08)' }}><Typography sx={rowTable}>{row.ticket}</Typography></TableCell>
-                                    <TableCell sx={{ border: 'none' }}><Typography sx={rowTable}>{row.amount}</Typography></TableCell>
-                                    <TableCell sx={{ border: 'none', background: 'rgba(161, 14, 164, 0.08)' }}><Typography sx={rowTable}>{row.totalPrice}</Typography></TableCell>
-                                    <TableCell sx={{ border: 'none' }}><Typography sx={rowTable}>{row.transactionTime}</Typography></TableCell>
+                                    <TableCell sx={{ border: 'none', background: 'rgba(161, 14, 164, 0.08)', paddingTop:'8px', paddingBottom:'8px'}}><Typography sx={rowTable}>{row.ticket}</Typography></TableCell>
+                                    <TableCell sx={{ border: 'none', paddingTop:'8px', paddingBottom:'8px' }}><Typography sx={rowTable}>{row.amount}</Typography></TableCell>
+                                    <TableCell sx={{ border: 'none', background: 'rgba(161, 14, 164, 0.08)', paddingTop:'8px', paddingBottom:'8px' }}><Typography sx={rowTable}>{row.totalPrice}</Typography></TableCell>
+                                    <TableCell sx={{ border: 'none', paddingTop:'8px', paddingBottom:'8px' }}><Typography sx={rowTable}>{row.transactionTime}</Typography></TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
