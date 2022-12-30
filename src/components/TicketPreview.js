@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export default function TicketPreview(props) {
-  const { ticket = {} } = props;
+  const { ticket } = props;
   const [creator, setCreator] = useState({});
   const [updater, setUpdater] = useState({});
 
@@ -42,11 +42,11 @@ export default function TicketPreview(props) {
       </div>
       <div className='pair'>
         <span>Filght Number</span>
-        <span>{ticket.flightNumber}</span>
+        <span data-testid='tp-fn'>{ticket.flightNumber}</span>
       </div>
       <div className='pair'>
         <span>Created By</span>
-        <span>{creator.name}</span>
+        <span data-testid='tp-cn'>{creator.name}</span>
       </div>
       <div className='pair'>
         <span>Created At</span>

@@ -8,7 +8,9 @@ export default function Alert(props) {
   } = props;
 
   return (
-    <span className={`alert ${type} ${(active) ? 'active' : ''}`}>
+    <span
+      data-testid='alert'
+      className={`alert ${type} ${(active) ? 'active' : ''}`}>
       {message}
     </span>
   )

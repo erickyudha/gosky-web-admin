@@ -9,7 +9,7 @@ export default function TicketCard(props) {
   const { ticket, deleteHandler } = props;
   const [confirmActive, setConfirmActive] = useState(false);
   const [loadingActive, setLoadingActive] = useState(false);
-  const [cookies, setCookie] = useCookies(['accessToken']);
+  const [cookies] = useCookies(['accessToken']);
   const navigate = useNavigate();
 
 
@@ -68,7 +68,7 @@ export default function TicketCard(props) {
       <div className="content">
         <div className="row-1">
           <span>{(ticket.category === 'ONE_WAY') ? 'ONE WAY' : 'ROUND TRIP'}</span>
-          <span>{ticket.flightNumber}</span>
+          <span data-testid='tc-fn'>{ticket.flightNumber}</span>
         </div>
         <span className='destination'>{`${ticket.from}-${ticket.to}`}</span>
         <div className='pair'>
@@ -93,8 +93,8 @@ export default function TicketCard(props) {
       </div>
 
       <div className='control'>
-        <button className='editBtn' onClick={() => navigate('/dashboard/tickets/update/' + ticket.id)}>Edit</button>
-        <button className='deleteBtn' onClick={handleShowConfirm}>Delete</button>
+        <button data-testid='tc-edit-btn' className='editBtn' onClick={() => navigate('/dashboard/tickets/update/' + ticket.id)}>Edit</button>
+        <button data-testid='tc-del-btn' className='deleteBtn' onClick={handleShowConfirm}>Delete</button>
       </div>
     </div>
   )

@@ -32,7 +32,7 @@ export default function TicketForm(props) {
           throw new Error(body.message);
         } else {
           const ticket = body.data;
-          setCategory((ticket.category === 'ONE_WAY') ? 'ONE WAY' : 'ROUND TRIP');
+          setCategory(ticket.category.replace('_', ' '));
           setFrom(ticket.from);
           setTo(ticket.to);
           setPrice(ticket.price);
