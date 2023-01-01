@@ -71,4 +71,8 @@ main:has(.crud-section)  {
     flex-direction: column;
     gap: 20px;
   }
+
+  .ticket-preview {
+    grid-template-columns: 1fr;
+  }
 }
