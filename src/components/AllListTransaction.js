@@ -116,7 +116,6 @@ export default function ListTransactions() {
     });
 
     let sort = rows.reverse();
-    console.log(sort);
 
     const limit = [];
     let batas = 24;
