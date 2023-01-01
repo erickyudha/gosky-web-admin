@@ -149,8 +149,9 @@ export default function TicketDashboard() {
             </button>
           </>
         }
-        {pageArr.map((x) => {
+        {pageArr.map((x, i) => {
           return <button
+            key={`page${i + 1}`}
             className={(x === parseInt(searchParams.get('page'))) ? 'active' : ''}
             onClick={(e) => {
               setSearchParams({

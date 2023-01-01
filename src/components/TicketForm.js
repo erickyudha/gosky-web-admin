@@ -22,15 +22,19 @@ export default function TicketForm(props) {
 
   useEffect(() => {
     const loadTicketData = async () => {
-      setCategory(ticket.category.replace('_', ' '));
-      setFrom(ticket.from);
-      setTo(ticket.to);
-      setPrice(ticket.price);
-      setDuration(ticket.duration);
-      setDepartureTime(new Date(ticket.departureTime).toISOString().slice(0, 16));
-      setDescription(ticket.description);
-      if (ticket.category === 'ROUND_TRIP') {
-        setReturnTime(new Date(ticket.returnTime).toISOString().slice(0, 16))
+      try {
+        setCategory(ticket.category.replace('_', ' '));
+        setFrom(ticket.from);
+        setTo(ticket.to);
+        setPrice(ticket.price);
+        setDuration(ticket.duration);
+        setDepartureTime(new Date(ticket.departureTime).toISOString().slice(0, 16));
+        setDescription(ticket.description);
+        if (ticket.category === 'ROUND_TRIP') {
+          setReturnTime(new Date(ticket.returnTime).toISOString().slice(0, 16))
+        }
+      } catch (error) {
+        return
       }
     }
     if (!!ticket) loadTicketData();
