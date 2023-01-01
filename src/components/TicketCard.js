@@ -87,7 +87,7 @@ export default function TicketCard(props) {
         <span className='destination'>{`${ticket.from}-${ticket.to}`}</span>
         <div className='pair'>
           <img alt='price' className='cardIcon' src='/price_icon.svg'></img>
-          <span>Rp{ticket.price}</span>
+          <span>{new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(ticket.price)}</span>
         </div>
         <div className='pair'>
           <img alt='departure' className='cardIcon' src='/departure_icon.svg'></img>

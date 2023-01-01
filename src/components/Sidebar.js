@@ -123,7 +123,7 @@ export default function PersistentDrawerLeft({ components }) {
         <Box sx={{ display: 'flex', boxSizing:'none', marginTop: '-25px'}}>
             <CssBaseline />
             <AppBar position="fixed" open={open} sx={{ background: '#FFFFFF' }}>
-                <Container maxWidth>
+                <Container maxWidth='100%'>
                     <Grid container spacing={2} justifyContent='space-between'>
                         <Grid item>
                             <Toolbar>
@@ -196,7 +196,7 @@ export default function PersistentDrawerLeft({ components }) {
                 <List sx={{ marginTop: '15%', }}>
                     {
                         [{"name":'Dashboard', 'link':'/dashboard'}, {"name":'Manage Tickets', 'link':'/dashboard/tickets'}, {"name":'Logout', 'link':'/logout'}].map((text, index) => (
-                            <ListItem key={text} disablePadding >
+                            <ListItem key={text.name} disablePadding >
                                 <a  href={text.link} style={{textDecoration:'none'}}>
                                 <ListItemButton sx={{ height: '90px', width: '300px' }}>
                                     <ListItemIcon sx={{ color: 'white' }}>

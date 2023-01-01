@@ -20,8 +20,7 @@ export default function ListTransactions() {
         fontFamily: 'Montserrat',
         fontStyle: 'normal',
         fontWeight: '700',
-        fontSize: '24px',
-        lineHeight: '29px',
+        fontSize: '16px',
         color: '#000000',
     }
 
@@ -110,7 +109,7 @@ export default function ListTransactions() {
         }
         return rows.push(createData(
             transactions.id, transactions.user.name, 
-            `[${transactions.ticket.category}] ${transactions.ticket.from} - ${transactions.ticket.to} - `+ new Date(transactions.ticket.departureTime).toLocaleString(),
+            `[${transactions.ticket.category}] ${transactions.ticket.from} - ${transactions.ticket.to} (${transactions.ticket.flightNumber})`,
             transactions.amount,
             new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(transactions.ticket.price * transactions.amount),
             new Date(transactions.updatedAt).toLocaleString()))

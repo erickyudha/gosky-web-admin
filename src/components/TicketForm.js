@@ -54,13 +54,14 @@ export default function TicketForm(props) {
   ];
 
   return (
-    <div className="ticket-form">
+    <div data-testid='tf' className="ticket-form">
       <div className="pair">
         <label>Category</label>
         <select
+          data-testid='tf-category'
           value={category}
           onChange={(e) => {
-            setCategory(e.target.value);
+            setCategory(e.target.value.replace(' ', '_'));
           }}
         >
           <option>ONE WAY</option>
@@ -71,6 +72,7 @@ export default function TicketForm(props) {
         <div className="pair">
           <label>From</label>
           <select
+            data-testid='tf-from'
             value={from}
             onChange={(e) => {
               setFrom(e.target.value);
@@ -82,6 +84,7 @@ export default function TicketForm(props) {
         <div className="pair">
           <label>To</label>
           <select
+            data-testid='tf-to'
             value={to}
             onChange={(e) => {
               setTo(e.target.value);
@@ -94,6 +97,7 @@ export default function TicketForm(props) {
       <div className="pair">
         <label>Price</label>
         <input
+          data-testid='tf-price'
           placeholder="Price"
           type='number'
           onChange={(e) => {
@@ -105,6 +109,7 @@ export default function TicketForm(props) {
       <div className="pair">
         <label>Duration</label>
         <input
+          data-testid='tf-duration'
           placeholder="Duration"
           type='number'
           onChange={(e) => {
@@ -116,6 +121,7 @@ export default function TicketForm(props) {
       <div className="pair">
         <label>Departure Time</label>
         <input
+          data-testid='tf-dt'
           placeholder="Departure Time"
           type='datetime-local'
           value={departureTime}
@@ -128,6 +134,7 @@ export default function TicketForm(props) {
       <div className="pair">
         <label>Return Time</label>
           <input
+            data-testid='tf-rt'
             placeholder="Return Time"
             type='datetime-local'
             value={returnTime}
@@ -140,6 +147,7 @@ export default function TicketForm(props) {
       <div className="pair">
         <label>Description</label>
         <textarea
+          data-testid='tf-desc'
           placeholder="Description"
           cols={10}
           onChange={(e) => {
@@ -152,6 +160,7 @@ export default function TicketForm(props) {
       <div className="pair">
         <label>Image</label>
         <input
+          data-testid='tf-image'
           type='file'
           accept="image/*"
           onChange={(e) => {
