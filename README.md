@@ -4,6 +4,12 @@ GoSky is an airplane ticket ordering app. This team project is made as part of f
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Access
+To access this app. You can use this default admin account:
+
+        email: gosky.admin@gmail.com
+        password: admin
+
 ## Routes
 This project is hosted using vercel
 
