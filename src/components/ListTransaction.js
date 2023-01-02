@@ -147,7 +147,7 @@ export default function ListTransactions() {
         }
         return rows.push(createData(
             transactions.id, transactions.user.name, 
-            `[${transactions.ticket.category}] ${transactions.ticket.from} - ${transactions.ticket.to} (${transactions.ticket.flightNumber})`,
+            `[${transactions.ticket.category.replace('_', ' ')}] ${transactions.ticket.from} - ${transactions.ticket.to} (${transactions.ticket.flightNumber})`,
             transactions.amount,
             new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(transactions.ticket.price * transactions.amount),
             new Date(transactions.updatedAt).toLocaleString()))
