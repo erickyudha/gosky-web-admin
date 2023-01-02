@@ -22,6 +22,27 @@ const Mock = {
     updatedAt: isoDate,
     deletedAt: isoDate,
   },
+
+  TRANSACTION: {
+    id: 1,
+    userId: 1,
+    ticketId: 1,
+    amount: 1,
+    bookingCode: 'VQSGU4NRD',
+    deletedAt: null,
+    createdAt: '2022-12-14T08:09:22.006Z',
+    updatedAt: '2022-12-14T08:09:22.006Z',
+  },
+
+  USER: {
+    id: 1,
+    name: 'User',
+    email: `user@gmail.com`,
+    role: 'USER',
+    imageId: 'image',
+    imageUrl: 'https://cdn-icons-png.flaticon.com/512/1946/1946429.png',
+    phone: `1234567890`,
+  },
 };
 
 export default Mock;

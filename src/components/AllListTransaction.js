@@ -61,7 +61,7 @@ export default function ListTransactions() {
 
 
     React.useEffect(() => {
-        const validateAccessToken = async () => {
+        const getTransactions = async () => {
             try {
                 setIsLoading(true);
                 const url = 'https://gosky.up.railway.app/api/transactions';
@@ -74,23 +74,20 @@ export default function ListTransactions() {
                 });
                 const response = await rawResponse.json();
                 if (response.status !== 'success') {
-                    throw new Error();
+                    throw new Error(response.message);
                 } else {
                     setTransaction(response.data);
                     setIsLoading(false);
                 }
 
             } catch (error) {
+                console.log(error);
                 setCookie('accessToken', '', { path: '/' });
                 navigate('/login');
             }
         }
 
-        if (cookies.accessToken === '') {
-            navigate('/login');
-        } else {
-            validateAccessToken();
-        }
+        getTransactions();
     }, [])
 
     function createData(id, user, ticket, amount, totalPrice, transactionTime) {
@@ -146,12 +143,12 @@ export default function ListTransactions() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {limit.map((row) => (
+                            {limit.map((row, i) => (
                                 <TableRow key={row.id} sx={{ height: '0px', }}>
                                     <TableCell component="th" scope="row" className="headerTableRow" sx={{ border: 'none',  paddingTop:'8px', paddingBottom:'8px'}}>
                                         <Typography sx={rowTable}>{row.user}</Typography>
                                     </TableCell>
-                                    <TableCell sx={{ border: 'none', background: 'rgba(161, 14, 164, 0.08)', paddingTop:'8px', paddingBottom:'8px'}}><Typography sx={rowTable}>{row.ticket}</Typography></TableCell>
+                                    <TableCell data-testid={`test-cell-${i}`} sx={{ border: 'none', background: 'rgba(161, 14, 164, 0.08)', paddingTop: '8px', paddingBottom: '8px' }}><Typography sx={rowTable}>{row.ticket}</Typography></TableCell>
                                     <TableCell sx={{ border: 'none', paddingTop:'8px', paddingBottom:'8px' }}><Typography sx={rowTable}>{row.amount}</Typography></TableCell>
                                     <TableCell sx={{ border: 'none', background: 'rgba(161, 14, 164, 0.08)', paddingTop:'8px', paddingBottom:'8px' }}><Typography sx={rowTable}>{row.totalPrice}</Typography></TableCell>
                                     <TableCell sx={{ border: 'none', paddingTop:'8px', paddingBottom:'8px' }}><Typography sx={rowTable}>{row.transactionTime}</Typography></TableCell>

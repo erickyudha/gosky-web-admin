@@ -180,7 +180,7 @@ export default function TicketDashboard() {
       </div>
       <div className='ticket-list'>
         {viewTickets.map((ticket) => {
-          return <TicketCard ticket={ticket} key={ticket.id} deleteHandler={handleDelete} />
+          return <TicketCard data-testid='ticket-card' ticket={ticket} key={ticket.id} deleteHandler={handleDelete} />
         })}
       </div>
       

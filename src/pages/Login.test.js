@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, waitFor} from "@testing-library/react";
-import { Cookies, CookiesProvider } from "react-cookie";
+import { CookiesProvider } from "react-cookie";
 import { BrowserRouter } from "react-router-dom";
 import Login from "./Login";
 

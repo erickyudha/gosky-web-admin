@@ -197,7 +197,7 @@ export default function PersistentDrawerLeft({ components }) {
                     {
                         [{"name":'Dashboard', 'link':'/dashboard'}, {"name":'Manage Tickets', 'link':'/dashboard/tickets'}, {"name":'Logout', 'link':'/logout'}].map((text, index) => (
                             <ListItem key={text.name} disablePadding >
-                                <a  href={text.link} style={{textDecoration:'none'}}>
+                                <a data-testid={`sidebar-${text.name}`}  href={text.link} style={{textDecoration:'none'}}>
                                 <ListItemButton sx={{ height: '90px', width: '300px' }}>
                                     <ListItemIcon sx={{ color: 'white' }}>
                                         {index / 2 === 0 ? <DashboardCustomizeRoundedIcon sx={{ fontSize: '45px' }} /> : (index % 2 === 1 ? <AirplaneTicketRoundedIcon sx={{ fontSize: '45px' }} /> : <LogoutRoundedIcon sx={{ fontSize: '45px' }} />)}
