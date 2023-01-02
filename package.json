@@ -44,5 +44,12 @@
   },
   "devDependencies": {
     "react-test-renderer": "^18.2.0"
+  },
+   "jest": {
+    "coveragePathIgnorePatterns" : [
+      "<rootDir>/src/App.js", 
+      "<rootDir>/src/index.js",
+      "<rootDir>/src/reportWebVitals.js"
+    ]
   }
 }

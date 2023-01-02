@@ -45,14 +45,14 @@ export default function FormFilter(props) {
                   };
                   return {
                     ...old,
-                    category: (val === 'ONE WAY') ? 'ONE_WAY' : 'ROUND_TRIP'
+                    category: val
                   }
                 })
               }}
             >
               <option defaultChecked>-</option>
-              <option>ONE WAY</option>
-              <option>ROUND TRIP</option>
+              <option value='ONE_WAY'>ONE WAY</option>
+              <option value='ROUND_TRIP'>ROUND TRIP</option>
             </select>
           </div>
           <div className="row">
@@ -100,6 +100,7 @@ export default function FormFilter(props) {
           <div className="pair">
             <label>Departure Time</label>
             <input
+              data-testid='ff-dt'
               placeholder="Departure Time"
               type='datetime-local'
               onChange={(e) => {
@@ -136,12 +137,14 @@ export default function FormFilter(props) {
 
         <div className='control'>
           <button
+            data-testid='ff-reset-btn'
             onClick={() => {
               setFilter({});
               resetHandler();
             }}
           >Reset</button>
           <button
+            data-testid='ff-filter-btn'
             onClick={() => {
               filterHandler(filter);
             }}
