@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export default function TicketForm(props) {
-  const { ticketId = null, onChange = () => { } } = props;
+  const { onChange, ticket } = props;
   const [category, setCategory] = useState('ONE WAY');
   const [from, setFrom] = useState('JAKARTA');
   const [to, setTo] = useState('MEDAN');
@@ -23,32 +23,22 @@ export default function TicketForm(props) {
   useEffect(() => {
     const loadTicketData = async () => {
       try {
-        const url = 'https://gosky.up.railway.app/api/tickets/' + ticketId;
-        const response = await fetch(url, {
-          method: 'GET'
-        });
-        const body = await response.json();
-        if (body.status !== 'success') {
-          throw new Error(body.message);
-        } else {
-          const ticket = body.data;
-          setCategory((ticket.category === 'ONE_WAY') ? 'ONE WAY' : 'ROUND TRIP');
-          setFrom(ticket.from);
-          setTo(ticket.to);
-          setPrice(ticket.price);
-          setDuration(ticket.duration);
-          setDepartureTime(new Date(ticket.departureTime).toISOString().slice(0, 16));
-          setDescription(ticket.description);
-          if (ticket.category === 'ROUND_TRIP') {
-            setReturnTime(new Date(ticket.returnTime).toISOString().slice(0, 16))
-          }
+        setCategory(ticket.category.replace('_', ' '));
+        setFrom(ticket.from);
+        setTo(ticket.to);
+        setPrice(ticket.price);
+        setDuration(ticket.duration);
+        setDepartureTime(new Date(ticket.departureTime).toISOString().slice(0, 16));
+        setDescription(ticket.description);
+        if (ticket.category === 'ROUND_TRIP') {
+          setReturnTime(new Date(ticket.returnTime).toISOString().slice(0, 16))
         }
       } catch (error) {
-        // handle error
+        return
       }
     }
-    if (!!ticketId) loadTicketData();
-  }, [ticketId]);
+    if (!!ticket) loadTicketData();
+  }, [ticket]);
 
   const cities = [
     'JAKARTA',
