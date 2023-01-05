@@ -71,6 +71,7 @@ export default function UpdateTicket(props) {
         ...ticket,
         ...imageData,
       };
+      data.category = (data.category === 'ONE WAY') ? 'ONE_WAY' : 'ROUND_TRIP';
       
       const url = 'https://gosky.up.railway.app/api/tickets/' + id;
       const response = await fetch(url, {

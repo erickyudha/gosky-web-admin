@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export default function TicketForm(props) {
-  const { onChange, ticket } = props;
+  const { ticketId = null, onChange = () => { } } = props;
   const [category, setCategory] = useState('ONE WAY');
   const [from, setFrom] = useState('JAKARTA');
   const [to, setTo] = useState('MEDAN');
@@ -23,22 +23,32 @@ export default function TicketForm(props) {
   useEffect(() => {
     const loadTicketData = async () => {
       try {
-        setCategory(ticket.category.replace('_', ' '));
-        setFrom(ticket.from);
-        setTo(ticket.to);
-        setPrice(ticket.price);
-        setDuration(ticket.duration);
-        setDepartureTime(new Date(ticket.departureTime).toISOString().slice(0, 16));
-        setDescription(ticket.description);
-        if (ticket.category === 'ROUND_TRIP') {
-          setReturnTime(new Date(ticket.returnTime).toISOString().slice(0, 16))
+        const url = 'https://gosky.up.railway.app/api/tickets/' + ticketId;
+        const response = await fetch(url, {
+          method: 'GET'
+        });
+        const body = await response.json();
+        if (body.status !== 'success') {
+          throw new Error(body.message);
+        } else {
+          const ticket = body.data;
+          setCategory((ticket.category === 'ONE_WAY') ? 'ONE WAY' : 'ROUND TRIP');
+          setFrom(ticket.from);
+          setTo(ticket.to);
+          setPrice(ticket.price);
+          setDuration(ticket.duration);
+          setDepartureTime(new Date(ticket.departureTime).toISOString().slice(0, 16));
+          setDescription(ticket.description);
+          if (ticket.category === 'ROUND_TRIP') {
+            setReturnTime(new Date(ticket.returnTime).toISOString().slice(0, 16))
+          }
         }
       } catch (error) {
-        return
+        // handle error
       }
     }
-    if (!!ticket) loadTicketData();
-  }, [ticket]);
+    if (!!ticketId) loadTicketData();
+  }, [ticketId]);
 
   const cities = [
     'JAKARTA',
@@ -58,14 +68,13 @@ export default function TicketForm(props) {
   ];
 
   return (
-    <div data-testid='tf' className="ticket-form">
+    <div className="ticket-form">
       <div className="pair">
         <label>Category</label>
         <select
-          data-testid='tf-category'
           value={category}
           onChange={(e) => {
-            setCategory(e.target.value.replace(' ', '_'));
+            setCategory(e.target.value);
           }}
         >
           <option>ONE WAY</option>
@@ -76,7 +85,6 @@ export default function TicketForm(props) {
         <div className="pair">
           <label>From</label>
           <select
-            data-testid='tf-from'
             value={from}
             onChange={(e) => {
               setFrom(e.target.value);
@@ -88,7 +96,6 @@ export default function TicketForm(props) {
         <div className="pair">
           <label>To</label>
           <select
-            data-testid='tf-to'
             value={to}
             onChange={(e) => {
               setTo(e.target.value);
@@ -101,7 +108,6 @@ export default function TicketForm(props) {
       <div className="pair">
         <label>Price</label>
         <input
-          data-testid='tf-price'
           placeholder="Price"
           type='number'
           onChange={(e) => {
@@ -113,7 +119,6 @@ export default function TicketForm(props) {
       <div className="pair">
         <label>Duration</label>
         <input
-          data-testid='tf-duration'
           placeholder="Duration"
           type='number'
           onChange={(e) => {
@@ -125,7 +130,6 @@ export default function TicketForm(props) {
       <div className="pair">
         <label>Departure Time</label>
         <input
-          data-testid='tf-dt'
           placeholder="Departure Time"
           type='datetime-local'
           value={departureTime}
@@ -135,10 +139,9 @@ export default function TicketForm(props) {
         ></input>
       </div>
       {(category === 'ROUND TRIP') ?
-      <div className="pair">
-        <label>Return Time</label>
+        <div className="pair">
+          <label>Return Time</label>
           <input
-            data-testid='tf-rt'
             placeholder="Return Time"
             type='datetime-local'
             value={returnTime}
@@ -146,12 +149,11 @@ export default function TicketForm(props) {
               setReturnTime(e.target.value);
             }}
           ></input>
-      </div> : ''
+        </div> : ''
       }
       <div className="pair">
         <label>Description</label>
         <textarea
-          data-testid='tf-desc'
           placeholder="Description"
           cols={10}
           onChange={(e) => {
@@ -164,7 +166,6 @@ export default function TicketForm(props) {
       <div className="pair">
         <label>Image</label>
         <input
-          data-testid='tf-image'
           type='file'
           accept="image/*"
           onChange={(e) => {
